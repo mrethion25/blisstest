@@ -1,4 +1,4 @@
-body{
+ body{
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     background: linear-gradient(135deg, #232526 0%, #414345 100%);
@@ -366,45 +366,77 @@ footer#emojiFooter {
 body {
     padding-bottom: 20px;
 }
-/* ============================
-   LEADERBOARD  
-   ============================ */
+/* ============================================
+   ANIMATED + SCROLLABLE LEADERBOARD
+   ============================================ */
 
+/* Leaderboard container */
 #leaderboardBox {
     margin-top: 20px;
     padding: 15px;
     background: rgba(255,255,255,0.08);
     backdrop-filter: blur(6px);
     border-radius: 14px;
-    text-align: left;
     width: 350px;
     max-width: 90%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 25px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    overflow: hidden;
 }
 
-#leaderboardBox h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #ffd700;
-}
-
+/* Scrollable list */
 #leaderboard {
-    padding-left: 20px;
+    max-height: 210px; /* fits ~7 items */
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Smooth scrolling */
+#leaderboard {
+    scrollbar-width: thin;
+    scrollbar-color: #ffd700 #444;
+}
+
+/* WebKit scrollbar */
+#leaderboard::-webkit-scrollbar {
+    width: 6px;
+}
+#leaderboard::-webkit-scrollbar-thumb {
+    background: #ffd700;
+    border-radius: 10px;
+}
+#leaderboard::-webkit-scrollbar-track {
+    background: #444;
 }
 
 #leaderboard li {
-    margin: 4px 0;
+    margin: 6px 0;
     font-size: 1.1rem;
     color: #fff;
+    padding: 5px 8px;
+    border-radius: 6px;
+
+    /* Animation */
+    animation: slideIn 0.35s ease forwards;
+    opacity: 0;
+    transform: translateX(-10px);
 }
 
-#yourScore {
-    margin-top: 10px;
-    font-size: 1rem;
-    opacity: 0.8;
+/* Slide-in animation */
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Glow effect for #1 score */
+#leaderboard li:first-child {
     color: #ffd700;
+    font-weight: bold;
+    text-shadow: 0 0 12px #ffd700, 0 0 25px #ffb300;
+    background: rgba(255, 215, 0, 0.12);
+    border-left: 4px solid #ffd700;
 }
