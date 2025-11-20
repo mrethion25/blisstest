@@ -384,9 +384,12 @@ function loadLeaderboard(currentScore) {
 
     // Show current score
     const ys = document.getElementById("yourScore");
-    if (ys) ys.textContent = "Your current score: " + currentScore;
-
+    if (ys) {
+    let rank = scores.indexOf(currentScore) + 1;
+    ys.textContent = `Your current score: ${currentScore} (Rank: #${rank})`;
+    }
     // Auto-scroll so new score is visible
     lb.scrollTop = 0;
 }
+
 
