@@ -323,6 +323,10 @@ function showGameOver() {
     document.getElementById("restartBtn").style.display = "none";
     document.getElementById("mainContent").classList.add("blur");
     gameStarted = false;
+
+    // ⭐ Leaderboard update + animation ⭐
+    saveScore(score);
+    loadLeaderboard(score);
 }
 
 function hideGameOver() {
@@ -347,4 +351,42 @@ function spawnEmoji() {
 }
 
 setInterval(spawnEmoji, 1200);
+/* ============================
+   UPDATED LEADERBOARD FUNCTIONS
+   ============================ */
+
+// Save score and keep top 50
+function saveScore(score) {
+    let scores = JSON.parse(localStorage.getItem("lb_scores") || "[]");
+
+    scores.push(score);
+    scores.sort((a, b) => b - a);
+
+    scores = scores.slice(0, 50); // now stores top 50
+
+    localStorage.setItem("lb_scores", JSON.stringify(scores));
+}
+
+// Load leaderboard
+function loadLeaderboard(currentScore) {
+    const scores = JSON.parse(localStorage.getItem("lb_scores") || "[]");
+
+    const lb = document.getElementById("leaderboard");
+    if (!lb) return;
+
+    lb.innerHTML = "";
+
+    scores.forEach((s, i) => {
+        const li = document.createElement("li");
+        li.textContent = `#${i + 1} — ${s}`;
+        lb.appendChild(li);
+    });
+
+    // Show current score
+    const ys = document.getElementById("yourScore");
+    if (ys) ys.textContent = "Your current score: " + currentScore;
+
+    // Auto-scroll so new score is visible
+    lb.scrollTop = 0;
+}
 
